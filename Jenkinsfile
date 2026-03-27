@@ -14,9 +14,9 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                git 'https://github.com/DevopsPractice95/Terraform-Ec2.git'
+                git branch: 'main', url: 'https://github.com/DevopsPractice95/Terraform-Ec2.git'
             }
-        }
+       }
 
         stage('Terraform Init') {
             steps {
