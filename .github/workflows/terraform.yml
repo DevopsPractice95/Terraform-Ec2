@@ -3,6 +3,15 @@ name: Terraform AWS Deployment
 on:
   workflow_dispatch:
     inputs:
+      action:
+        description: "Choose Terraform Action"
+        required: true
+        default: "apply"
+        type: choice
+        options:
+          - apply
+          - destroy
+
       instance_type:
         description: "EC2 Instance Type"
         required: true
@@ -34,4 +43,9 @@ jobs:
       run: terraform plan -var="instance_type=${{ github.event.inputs.instance_type }}"
 
     - name: Terraform Apply
+      if: ${{ github.event.inputs.action == 'apply' }}
       run: terraform apply -auto-approve -var="instance_type=${{ github.event.inputs.instance_type }}"
+
+    - name: Terraform Destroy
+      if: ${{ github.event.inputs.action == 'destroy' }}
+      run: terraform destroy -auto-approve
